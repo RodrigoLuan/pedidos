@@ -1,0 +1,141 @@
+
+<div *ngIf="orders">
+<nav class="navbar navbar-horizontal navbar-expand-lg navbar-dark bg-danger">
+  <div class="container">
+    <a class="navbar-brand" [routerLink]="['/loja']"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-danger">
+      <div class="navbar-collapse-header">
+        <div class="row">
+          <div class="col-6 collapse-brand">
+            <a href="javascript:void(0)">
+              <img src="assets/img/brand/blue.png" />
+            </a>
+          </div>
+          <div class="col-6 collapse-close">
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <ul class="navbar-nav ml-lg-auto">
+        <li  class="nav-item">
+          <a  class="nav-link" [routerLink]="['/produtos'] ">Produtos 
+            
+          </a>
+        </li>
+        <li  class="nav-item">
+          <a  class="nav-link" [routerLink]="['/configuracao'] ">Configuração 
+            
+          </a>
+        </li>
+        <li  class="nav-item">
+          <a  class="nav-link" [routerLink]="['/pedidos/'] ">Pedidos 
+            
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container col-md-12">
+    <form style="background-color: rgba(190, 188, 188, 0.062);">
+      <div class="form-row col-md-12">
+<div class="container" >
+  <div class="card list-car">
+    <h5 class="card-header">Lista de Pedidos</h5>
+    <div class="card-body" >
+      
+      <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" >Nome do Cliente</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col">Total</th>
+              <th scope="col">Pedido</th>
+
+            </tr>
+          </thead>
+          <tbody >
+  
+            <tr  *ngFor="let pedido of orders | ReversePipe " [formGroup]="form" novalidate >
+              <td >{{pedido.nomeCliente}}</td>
+              
+              <td  > 
+                <div class="form-check " >
+                <div class="round">
+
+                  <input type="checkbox" id="{{pedido._id}}Conf"  *ngIf="pedido.statusConf === true; else statusConfFalse " checked>
+                  <label *ngIf="pedido.statusConf === true; "  for="{{pedido._id}}Conf"></label>
+                  <span *ngIf="pedido.statusConf === true; " >pedido confirmado</span>
+                </div>
+                
+                  <ng-template #statusConfFalse >
+                    <div class="round">
+                    <input type="checkbox" id="{{pedido._id}}Conf"[(ngModel)]="pedido.statusConf" *ngIf="pedido.statusConf === false"  formControlName="statusConf"   (change)="checkstatusConf($event,pedido)" >
+                    <label  for="{{pedido._id}}Conf"></label>
+                    <span > confirmar pedido</span>
+                  </div>
+                  </ng-template>
+                  </div>
+              </td>
+              <td >
+                <div class="form-check " >
+                  <div class="round">
+                  <input type="checkbox" id="{{pedido._id}}Prod"*ngIf="pedido.statusProd === true; else statusProdFalse " checked>
+                  <label  *ngIf="pedido.statusProd === true; " id="{{pedido._id}}Prod"></label>
+                  <span *ngIf="pedido.statusProd === true; ">pedido em produção</span>
+                </div>
+                  <ng-template #statusProdFalse>
+                    <div class="round">
+                    <input type="checkbox"  id="{{pedido._id}}Prod" name="pedido.nomeCliente"[(ngModel)]="pedido.statusProd" *ngIf="pedido.statusProd === false"  formControlName="statusProd"   (change)="checkstatusProd($event,pedido)" >
+                    <label for="{{pedido._id}}Prod"></label>
+                    <span >pedido em produção</span>
+                  </div>
+                  </ng-template>
+                </div>
+              </td>
+              <td>
+                <div class="form-check" >
+                  <div class="round">
+                  <input type="checkbox" id="{{pedido._id}}Done" *ngIf="pedido.statusDone === true; else statusDoneFalse " checked>
+                  <label for="{{pedido._id}}Done"></label>
+                  <span *ngIf="pedido.statusDone === true; ">pedido pronto</span>
+                </div>
+                  <ng-template #statusDoneFalse>
+                    <div class="round">
+                    <input type="checkbox" id="{{pedido._id}}Done" [(ngModel)]="pedido.statusDone" *ngIf="pedido.statusDone === false"  formControlName="statusDone"   (change)="checkstatusDone($event,pedido)" >
+                    <label for="{{pedido._id}}Done"></label>
+                    <span>pedido pronto</span>
+                  </div>
+                  </ng-template>
+                </div>
+              </td>
+           
+              <td *ngFor="let nameProduct of order">{{pedido.nameProduct}}</td>
+              <td style="font-weight: bold; color: rgb(219, 0, 23);">{{pedido.total | currency:'BRL'}}</td>
+              <td>
+                <a  class="btn btn-danger btn-sm lpf-sale-card-button" [routerLink]="['/pedido', pedido._id] ">Ir para pedido    
+                </a>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+  
+</div>
+
+
+    </div>
+    
+    </form>
+    </div>
+  </div>

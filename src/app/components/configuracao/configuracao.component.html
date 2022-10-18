@@ -1,0 +1,128 @@
+
+<div *ngIf="user">
+<nav class="navbar navbar-horizontal navbar-expand-lg navbar-dark bg-danger">
+  <div class="container">
+    <a class="navbar-brand" [routerLink]="['/loja', user.company]">{{user.company}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-danger">
+      <div class="navbar-collapse-header">
+        <div class="row">
+          <div class="col-6 collapse-brand">
+            <a href="javascript:void(0)">
+              <img src="assets/img/brand/blue.png" />
+            </a>
+          </div>
+          <div class="col-6 collapse-close">
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <ul class="navbar-nav ml-lg-auto">
+        <li  class="nav-item">
+          <a  class="nav-link" [routerLink]="['/produtos'] ">Produtos 
+            
+          </a>
+        </li>
+        <li  class="nav-item">
+          <a  class="nav-link" [routerLink]="['/configuracao'] ">Configuração
+            
+          </a>
+        </li>
+        <li  class="nav-item">
+          <a  class="nav-link" [routerLink]="['/pedidos/', user.company]">Pedidos 
+            
+          </a>
+        </li>
+        <li  class="nav-item">
+          <a  class="nav-link" [routerLink]="['/login']">Logout
+            
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container col-md-6">
+<form style="background-color: rgba(190, 188, 188, 0.062);"  > 
+  <div class="form-row col-md-12" >
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">Nome de exibição</label>
+      <input type="text" class="form-control" id="inputEmail4" placeholder="{{user.username}}">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputPassword4">Email</label>
+      <input type="email" class="form-control" id="inputPassword4" placeholder="{{user.email}}">
+    </div>
+  </div>
+  <div class="form-group col-md-11">
+    <label for="inputAddress">Whatsapp</label>
+    <input type="text" class="form-control" id="inputAddress" placeholder="{{user.phone}}">
+  </div>
+
+  <hr>
+
+  <div class="form-row col-md-11">
+    <div class="form-group col-md-12">
+      <label for="inputCEP">Area de Entrega</label>
+    <div *ngFor="let address of delivery">
+      <label for="inputCEP">{{address.address}} - {{address.price | currency:'BRL'}}</label> <button style="margin-left: 10px;"type="button" (click)="deleteDelivery(address)"class="btn btn-danger btn-sm">x</button>
+    </div>
+    </div>
+  </div>
+  <div class="form-group col-md-11">
+    <span></span>
+  </div>
+  
+
+  <div class="row col-md-4">
+    <div class="col-md-12">
+      <button class="btn btn-danger btn-sm mb-3 lpf-sale-card-button" (click)="open(classic,'' , '')">
+       Cadastre
+      </button>
+      <ng-template #classic let-c="close" let-d="dismiss">
+
+        <div class="modal-content">
+          <form id="add-form" (ngSubmit)="salvarAddress()"  [formGroup]="form"   novalidate>
+          <div class="modal-header">
+            <h6 class="modal-title" id="modal-title-default">Cadastre o Bairro</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+<!-- Tab navigation -->
+
+  
+  <!-- Tab content -->
+  <div class="tab-content"  id="myTabContent">
+
+    <div class="tab-pane fade show active" id="modal_pedido1" role="tabpanel" aria-labelledby="modal_pedido1">
+      <span>Bairro</span>
+      <input class="form-control"  formControlName="address" id="address" name="address"  type="text" placeholder="Bairro">
+      <span>Valor da entrega</span>
+      <input class="form-control"  formControlName="price" id="price" name="price"  type="text" placeholder="Valor">
+    </div>
+
+  </div>
+  
+  <!-- Tab carousel -->
+
+          </div>
+          <div class="modal-footer">
+            <button class="prevtab btn  btn-danger btn-sm lpf-sale-card-button">Criar</button>
+          </div>
+        </form>
+        </div>
+
+      </ng-template>
+    </div>
+</div>
+</form>
+</div>
+</div>

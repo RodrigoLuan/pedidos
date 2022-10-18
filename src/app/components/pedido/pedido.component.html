@@ -1,0 +1,97 @@
+
+<div *ngIf="orders">
+    <nav class="navbar navbar-horizontal navbar-expand-lg navbar-dark bg-danger">
+      <div class="container">
+        <a class="navbar-brand" [routerLink]="['/loja', orders.company]">{{orders.company}}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar-danger">
+          <div class="navbar-collapse-header">
+            <div class="row">
+              <div class="col-6 collapse-brand">
+                <a href="javascript:void(0)">
+                  <img src="assets/img/brand/blue.png" />
+                </a>
+              </div>
+              <div class="col-6 collapse-close">
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+                  <span></span>
+                  <span></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="container col-md-12">
+        <form style="background-color: rgba(190, 188, 188, 0.062);">
+          <div class="form-row col-md-12">
+    <div class="container">
+      <div class="card list-car">
+        <h5 class="card-header">Pedido do {{orders.nomeCliente}}</h5>
+
+        <div class="card-body">
+          <table class="table" style="border-inline-color: white;">
+              <thead>
+                <label *ngIf="orders.statusConf === false;">Estamos em processo de validação do seu pedido</label>
+                <label *ngIf="orders.statusConf === true;">Seu pedido foi validado.</label>
+                <br>
+                <label *ngIf="orders.statusProd === true;">Seu pedido está sendo preparado.</label>
+                <br>
+                <label *ngIf="orders.statusDone === true;">Enviamos seu pedido</label>
+              </thead>
+              <tbody > 
+                <tr>
+                    <th>Cliente</th>
+                    <td >{{orders.nomeCliente}}</td>
+                </tr>
+                <tr>
+                    <th>Endereço</th>
+                    <td  >{{orders.endereco}} - Buritis</td>
+                </tr>
+                <tr>
+                  <th>Metodo de Pagamento</th>
+                  <td *ngIf="orders.metodo !== null;" >{{orders.metodo}}</td>
+                  <td *ngIf="orders.metodo === null;" >dinheiro</td>
+              </tr>
+              <tr>
+                <th>Troco</th>
+                <td *ngIf="orders.troco !== null;" style="font-weight: bold; color: rgb(219, 0, 23);">{{orders.troco | currency:'BRL'}}</td>
+                <td *ngIf="orders.troco === null;">Sem troco</td>
+            </tr>
+              <tr>
+                <th>Pedido</th>
+                <th>Quantidade</th>
+                <th>Valor</th>
+                
+              </tr>
+                <tr *ngFor="let order of orders.order ">
+                  <td  >{{order.nameProduct}}</td>
+                  <td >{{order.quantity}}</td>
+                  <td style="font-weight: bold; color: rgb(219, 0, 23);" >{{order.price | currency:'BRL'}}</td>
+                </tr>
+                <tr>
+                  <th>Valor da Entrega</th>
+                  <td style="font-weight: bold; color: rgb(219, 0, 23);">{{orders.valorentrega | currency:'BRL'}}</td>
+              </tr>
+                <tr>
+                    <th>Total</th>
+                    <td style="font-weight: bold; color: rgb(219, 0, 23);">{{orders.total | currency:'BRL'}}</td>
+                </tr>
+              </tbody>
+              
+            </table>
+            <table>
+
+            </table>
+        </div>
+      </div>
+    </div>
+    
+    
+        </div>
+        </form>
+        </div>
+      </div>

@@ -1,0 +1,133 @@
+
+<div *ngIf="token">
+  <nav class="navbar navbar-horizontal navbar-expand-lg navbar-dark bg-danger">
+    <div class="container">
+      <a class="navbar-brand" [routerLink]="['/loja', token.company]">{{token.company}}</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar-danger">
+        <div class="navbar-collapse-header">
+          <div class="row">
+            <div class="col-6 collapse-brand">
+              <a href="javascript:void(0)">
+                <img src="assets/img/brand/blue.png" />
+              </a>
+            </div>
+            <div class="col-6 collapse-close">
+              <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <ul class="navbar-nav  ml-lg-auto">
+          <li  class="nav-item">
+            <a  class="nav-link" [routerLink]="['/produtos'] ">Produtos 
+              
+            </a>
+          </li>
+          <li  class="nav-item">
+            <a  class="nav-link" [routerLink]="['/configuracao'] ">Configuração
+              
+            </a>
+          </li>
+          <li  class="nav-item">
+            <a  class="nav-link" [routerLink]="['/pedidos/', token.company]">Pedidos 
+              
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  </div>
+<div class="container">
+    <div class="card list-car">
+      <h5 class="card-header">Lista de Produtos</h5>
+      <div class="card-body">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Nome do Produto</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Quantidade</th>
+                <th scope="col">Valor</th>
+              </tr>
+            </thead>
+            <tbody >
+              <tr  *ngFor="let produto of produtos">
+                <td>{{produto.nameProduct}}</td>
+                <td>{{produto.description}}</td>
+                <td>{{produto.category}}</td>
+                <td>{{produto.amount}}</td>
+                <td style="font-weight: bold; color: rgb(219, 0, 23);">{{produto.price | currency:'BRL'}}</td>
+
+                <td>
+                  <button type="button" class="btn btn-danger btn-sm lpf-sale-card-button " (click)="editProduct(produto)">Editar</button>
+           
+
+                </td>
+                <td>
+                  <i class="fa fa-trash" (click)="deleteProduct(produto)"></i>
+                </td>
+              </tr>
+            </tbody>
+            
+          </table>
+      </div>
+    </div>
+    <div class="card add-car">
+      <h5 class="card-header">Adicionar/Editar</h5>
+      <div class="card-body">
+        <form id="add-form"   [formGroup]="form" #f="ngForm"  novalidate>
+
+            <div class="row">
+            <div class="form-group  col-md-2">
+              <label for="price">Nome do Produto</label>
+              <input type="text" class="form-control" [(ngModel)]="produto.nameProduct" formControlName="nameProduct" id="nameProduct" name="nameProduct"  class="form-control" placeholder="">
+
+          </div>
+          <div class="form-group  col-md-2">
+            <label for="price">Descrição</label>
+            <input type="text" formControlName="description" [(ngModel)]="produto.description" id="description" name="description"  class="form-control" placeholder="">
+
+        </div>
+
+      <div class="form-group col-md-2" >
+        <label for="price">Categoria</label>
+        <select class="form-control col-md-2" formControlName="category"id="category" [(ngModel)]="produto.category" name="category" class="form-control">
+
+          <option value="promocao">Promoção</option>
+          <option value="sanduiche">Sanduíches</option>
+          <option value="acompanhamento">Acompanhamento</option>
+          <option value="bebida">Bebida</option>   
+          <option value="sobremesa">Sobremesa</option>
+        </select>
+      </div>
+      <div class="form-group  col-md-2">
+        <label for="price">Quantidade</label>
+        <input type="text" formControlName="amount" id="amount" [(ngModel)]="produto.amount" name="amount"  class="form-control" placeholder="">
+
+      </div>
+      <div class="form-group  col-md-2">
+        <label for="price">Valor</label>
+        <input type="text" formControlName="price" appCurrencyMask  id="price" [(ngModel)]="produto.price " name="price" class="form-control" placeholder="">
+
+     </div>
+
+
+    </div>
+      <div class="row ">
+        <button class="prevtab btn btn-success" (click)="salvarProduto()" >Cadastrar</button>
+        <button type="submit" class="prevtab btn btn-success" (click)="edit()">Salvar</button>
+      </div>
+
+<section class="col-sm-4" >
+
+</section>
+
+
+</form>

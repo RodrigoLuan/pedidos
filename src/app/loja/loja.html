@@ -1,0 +1,179 @@
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+<!-- Icons -->
+<link href="assets/vendor/nucleo/css/nucleo.css" rel="stylesheet">
+<link href="assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<link href="../../assets/scss/custom/site.scss" rel="stylesheet">
+<div *ngIf="user">
+    <nav class="lpf-nav"><span>{{user.company}}</span></nav>
+    <div class="container">
+        <ul class="nav lpf-nav_tab d-lg-none" id="category-tag" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pomo" role="tab" aria-controls="pills-home" aria-selected="true">Promoção</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#acom" role="tab" aria-controls="pills-profile" aria-selected="false">Acompanhamento</a>
+            </li>
+        </ul>
+        <div class="lpf-sale">
+            <section class="lpf-sale-itens">
+                <section class="active" id="pomo" role="tabpanel">
+                    <h3>Promoções</h3>
+                    <div *ngFor="let product of user.products " class="lpf-sale-itens-card">
+                        <div *ngIf="product.category == 'Teste'">
+                            <div class="lpf-sale-itens-card-header">
+                                <span>{{product.nameProduct}}</span>
+                                <div>
+                                    <span>R$ {{product.price}}</span>
+                                </div>
+                            </div>
+                            <div class="lpf-sale-itens-card-body">
+                                <span>{{product.description}}</span>
+                                <div>
+                                    <button class="btn" (click)="onAdd(product)">Adicionar no carrinho</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="active" id="pomo" role="tabpanel">
+                    <h3>Sanduiches</h3>
+                    <div *ngFor="let product of user.products" class="lpf-sale-itens-card">
+                        <div *ngIf="product.category == 'sanduiche'">
+                            <div class="lpf-sale-itens-card-header">
+                                <span>{{product.nameProduct}}</span>
+                                <div>
+                                    <span>R$ {{product.price}}</span>
+                                </div>
+                            </div>
+                            <div class="lpf-sale-itens-card-body">
+                                <span>{{product.description}}</span>
+                                <div>
+                                    <button class="btn" (click)="onAdd(product)">Adicionar no carrinho</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+            <!--            Exemplo do item lá-->
+            <!--            <section class="lpf-sale-item">-->
+            <!--                <section>-->
+            <!--                    <div data-toggle="collapse" data-target="#colapseAcr" aria-expanded="false" aria-controls="colapseAcr">-->
+            <!--                        <h5>Acompanhamentos</h5>-->
+            <!--                        <i class="fa fa-2x fa-angle-down"></i>-->
+            <!--                    </div>-->
+            <!--                    <div id="colapseAcr" class="collapse">-->
+            <!--                        <div class="form-check">-->
+            <!--                            <input type="checkbox" class="form-check-input" id="ckbPedido">-->
+            <!--                            <label class="form-check-label" for="storeCheckout">Retirar na loja</label>-->
+            <!--                        </div>-->
+            <!--                        <div class="form-check">-->
+            <!--                            <input type="checkbox" class="form-check-input" id="ckbPedido2">-->
+            <!--                            <label class="form-check-label" for="storeCheckout">Retirar na loja</label>-->
+            <!--                        </div>-->
+            <!--                        <div class="form-check">-->
+            <!--                            <input type="checkbox" class="form-check-input" id="ckbPedido3">-->
+            <!--                            <label class="form-check-label" for="storeCheckout">Retirar na loja</label>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </section>-->
+            <!--            </section>-->
+            <form class="lpf-sale-cart" [class.lpf-sale-cart--sm-full]=" address || payment_method" [formGroup]="form" novalidate>
+                <nav>
+                    <button class="btn fa fa-2x fa-long-arrow-left"></button>
+                    <img src="" alt="L">
+                    <button class="btn fa fa-2x fa-times"></button>
+                </nav>
+                <button class="btn btn-lg btn-success w-100">Atendimento via WhatsApp</button>
+                <div class="tab">
+                    <button class="btn fa fa-2x fa-shopping-cart" (click)="carrinho()"></button>
+                    <button class="btn fa fa-2x fa-map-marker" (click)="endereco_()"></button>
+                    <button class="btn fa fa-2x fa-credit-card" (click)="pagamento()"></button>
+                </div>
+                <a *ngIf="pedido; else loading" class="btn btn-lg btn-success w-100" button href="https://wa.me/553191001408?text=Este%20é%20o%20meu%20pedido%20www.loocalizei.com.br/loopedidos/pedidos/{{pedido.product._id}}">Enviar</a>
+                <section *ngIf="list === true" id="cart-list" class="lpf-sale-cart-list">
+                    <h3>Meu carrinho</h3>
+                    <div *ngFor="let product of selectedFeatures">
+                        <div>
+                            <span class="font-weight-bold">{{product.nameProduct}}</span>
+                            <small class="lpf-text_red">R$ {{product.price}}</small>
+                        </div>
+                        <div>
+                            <button class="btn btn-sm" (click)="onRemove()">-</button>
+                            <span>{{quantidade}}</span>
+                            <button class="btn btn-sm" (click)="increment()">+</button>
+                            <div>
+                                <span>R$ {{product.price}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="cart-address" *ngIf="address === true" class="lpf-sale-cart-address">
+                    <h3>Onde você vai receber o pedido?</h3>
+                    <div class="form-group">
+                        <input type="text" class="form-control" formControlName="endereco" id="endereco" name="endereco" placeholder="Insira seu endereço">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="nomeCliente" formControlName="nomeCliente" placeholder="Insira seu Nome">
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" formControlName="retirar" value="true" id="retirar">
+                        <label class="form-check-label" for="storeCheckout">Retirar na loja</label>
+                    </div>
+                    <h5>Escolha a entrega</h5>
+                    <div *ngFor="let entrega of user.delivery">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" (click)="onClick($event, entrega.price)" value="entrega.price">
+                            <label class="form-check-label" for="storeCheckout">{{entrega.address}} - {{entrega.price}}</label>
+                        </div>
+                    </div>
+                </section>
+                <section id="cart-payment_method " *ngIf="payment_method === true" class="lpf-sale-cart-payment_method">
+                    <h3>Escolha o método de pagamento</h3>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" formControlName="metodo" name="metodo" id="metodo" value="dinheiro" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            Dinheiro
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" formControlName="metodo" name="metodo" value="credito">
+                        <label class="form-check-label" for="exampleRadios2">
+                            Cartão de crédito
+                        </label>
+                    </div>
+                    <div class="form-check disabled">
+                        <input class="form-check-input" type="radio" formControlName="metodo" name="metodo" id="exampleRadios3" value="debito">
+                        <label class="form-check-label" for="exampleRadios3">
+                            Cartão de débito
+                        </label>
+                    </div>
+                </section>
+                <div class="lpf-sale-cart-total">
+                    <div>
+                        <small>Total</small>
+                        <small>Entrega</small>
+                        <span>Total</span>
+                    </div>
+                    <div>
+                        <small>R$ {{total}}</small>
+                        <small>R$ {{valorentrega}}</small>
+                        <span>R$ {{soma}}</span>
+                    </div>
+                </div>
+                <section class="lpf-sale-cart-footer">
+                    <span>Total: </span><span>R$ {{total}}</span>
+                    <input type="hidden" class="form-control" disabled formControlName="total" id="total" name="total" [(ngModel)]="total" placeholder="Total">
+                    <input type="hidden" class="form-control" disabled formControlName="valorentrega" id="valorentrega" name="valorentrega" [(ngModel)]="valorentrega" placeholder="valorentrega">
+                    <button class="btn btn-lg" *ngIf="list === true" (click)="endereco_()">Continuar</button>
+                    <button class="btn btn-lg" *ngIf="address === true" (click)="pagamento()">Continuar</button>
+                    <button class="btn btn-lg" *ngIf="payment_method === true" (click)="submit()">Realizar Pedido</button>
+                    <a *ngIf="pedido; else loading" class="btn btn-success btn-sm" button href="https://wa.me/553191001408?text=Este%20é%20o%20meu%20pedido%20www.loocalizei.com.br/loopedidos/pedidos/{{pedido.product._id}}">Enviar</a>
+                </section>
+            </form>
+        </div>
+    </div>
+</div>
